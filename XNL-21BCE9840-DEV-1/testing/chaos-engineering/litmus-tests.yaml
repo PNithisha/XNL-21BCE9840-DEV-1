@@ -1,0 +1,18 @@
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: node-failure
+  namespace: litmus
+spec:
+  appinfo:
+    appns: default
+    applabel: "app=test"
+    appkind: deployment
+  chaosServiceAccount: litmus-admin
+  experiments:
+    - name: pod-delete
+      spec:
+        components:
+          env:
+            - name: TARGET_PODS
+              value: "test-app"
