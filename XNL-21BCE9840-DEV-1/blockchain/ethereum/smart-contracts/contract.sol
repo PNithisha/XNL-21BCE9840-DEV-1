@@ -1,9 +1,23 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract CICDValidation {
-    event CodeValidated(address indexed validator, string commitHash);
+contract DevOpsCertificate {
+    address public owner;
+    mapping(address => bool) public certified;
 
-    function validateCode(string memory commitHash) public {
-        emit CodeValidated(msg.sender, commitHash);
+    event Certified(address indexed user);
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function certify(address user) public {
+        require(msg.sender == owner, "Only owner can certify.");
+        certified[user] = true;
+        emit Certified(user);
+    }
+
+    function isCertified(address user) public view returns (bool) {
+        return certified[user];
     }
 }
